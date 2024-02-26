@@ -20,12 +20,12 @@
                     <a href="/admin/" class="me-2" target="_blank">Admin</a>
         </span>
         {% if user.is_authenticated %}
-        <form action="{% url 'logout' %}" method="post">
+        <form action={% url 'logout' %} class = 'me-2' target="_blank" method="post">
             {% csrf_token %}
-            <button type="submit">Выйти</button>
+            <button type="submit" class="btn btn-outline-success-bg-dark text-white">Выйти</button>
         </form>
         {% else %}
-            <a href="{% url 'login' %}">Войти</a>
+            <a href={% url 'login' %} class = 'me-2' target="_blank" >Войти</a>
         {% endif %}
 
         </div>
