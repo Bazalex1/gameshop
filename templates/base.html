@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,26 +9,41 @@
         {% block title %}
         {% endblock %}
     </title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
 </head>
 <body>
     <nav class="navbar navbar-dark bg-dark">
         <div class="container">
-            <a href={% url "shop:index" %} class="navbar-brand">Games shop</a>
-            <span class = navbar-text>
-                <a href={% url "shop:game_list" %} class="me-2" target="_blank"> Rating </a>
-        </span>
-            <span class = navbar-text>
-                    <a href="/admin/" class="me-2" target="_blank">Admin</a>
-        </span>
-        {% if user.is_authenticated %}
-        <form action={% url 'logout' %} class = 'me-2' target="_blank" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-outline-success-bg-dark text-white">Выйти</button>
-        </form>
-        {% else %}
-            <a href={% url 'login' %} class = 'me-2' target="_blank" >Войти</a>
-        {% endif %}
-
+            <a href="{% url 'shop:index' %}" class="navbar-brand">Games shop</a>
+            <ul class="navbar-nav d-flex flex-row">
+                <li class="nav-item">
+                    <a href="{% url 'shop:game_list' %}" class="me-2 nav-link {% if request.path == '/shop/game_list' %}active{% endif %}">
+                        <i class="bi bi-bar-chart-line"></i> Рейтинг
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/" class="me-2 nav-link text-decoration-none">
+                        <i class="bi bi-gear"></i> Admin
+                    </a>
+                </li>
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="me-2 nav-link text-decoration-none">
+                            <i class="bi bi-box-arrow-left"></i> Выйти
+                        </a>
+                        <form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+                            {% csrf_token %}
+                        </form>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a href="{% url 'login' %}" class="nav-link text-decoration-none">
+                            <i class="bi bi-door-open"></i> Войти
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
     <main class="container">
