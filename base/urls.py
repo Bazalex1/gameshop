@@ -27,6 +27,7 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='shop:index'), name='logout'),
     path('registration/', include("registration.urls"), name='registeration'),
+    path('api/', include("api.urls"))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 # добавляем путь к статическим файлам
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
