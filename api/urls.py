@@ -6,6 +6,8 @@ app_name = "api"
 
 router = routers.DefaultRouter()
 router.register(r'games', views.GameViewSet)
+router.register(r'categories', views.CategoryViewSet)
+
 
 urlpatterns = [
     path('', include(router.urls)),
