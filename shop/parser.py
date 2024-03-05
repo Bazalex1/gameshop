@@ -82,14 +82,6 @@ def parse_product_page(url):
                 print("Элемент 'Описание' не был найден")
         except:
             print("АШИБКА Элемент 'Описание' не был найден")
-
-        # Это было без драйваера try:
-        #     # Ваш код парсинга описания игры
-        #     description = soup.find('div', class_='tab-desc-content').get_text(strip=True)
-        #     print("Описание игры:", description)
-        #     return description
-        # except Exception as e:
-        #     print("Ошибка при парсинге описания:", e)
         
         try:
             price = soup.find(
@@ -113,8 +105,11 @@ def parse_product_page(url):
             # Создаем объект ContentFile из изображения
             image_content_file = ContentFile(f.read())
 
-        # Создаем объект ImageFile из ContentFile
-        image_file = ImageFile(image_content_file, name='image.jpg')
+        # Получаем содержимое из объекта ContentFile в виде байтовой строки
+        image_bytes = image_content_file.read()
+
+        # Создаем объект ImageFile из байтовой строки
+        image_file = ImageFile(image_bytes, name='image.jpg')
 
         driver.quit()
 
@@ -139,6 +134,7 @@ def download_image(url):
     if response.status_code == 200:
         with tempfile.NamedTemporaryFile(delete=False) as f:
             f.write(response.content)
+            print("Картинка скачана")
             return f.name.encode('utf-8')
     else:
         print("Ошибка при загрузке картинки")
@@ -156,6 +152,7 @@ def extract_image_url_from_url(url):
         # Используем регулярное выражение для извлечения URL из атрибута style
         match = re.search(r"url\(['\"]?([^'\")]+)['\"]?\)", style)
         if match:
+            print("URl Картинки получен")
             return match.group(1)
     else:
         print("ошибка получения изображения")
