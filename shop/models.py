@@ -24,7 +24,7 @@ class Game(models.Model):
         upload_to="game_img", height_field=None, width_field=None, max_length=None)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    rating = models.FloatField()
+    rating = models.CharField(max_length=255)
     description = models.CharField(max_length=1000)
     key_qty = models.IntegerField()
 
@@ -50,6 +50,8 @@ class Game(models.Model):
             self.image = os.path.join("game_img", new_image_name)
 
         super().save(*args, **kwargs)
+
+
 
     def __str__(self):
         return self.title

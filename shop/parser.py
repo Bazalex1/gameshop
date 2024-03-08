@@ -1,14 +1,20 @@
+from tempfile import TemporaryFile
 import tempfile
 import requests
 from bs4 import BeautifulSoup
 import re
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
+from django.core.files import File
+from io import BytesIO
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import os
+import uuid
+from django.core.files.base import ContentFile
 
 # Парсер для получения данных с сайта cupicod в  словарь product_info по ключам 'title','description','price','rating'.
 # А также с возможностью скачать изображение.
@@ -84,7 +90,7 @@ def parse_product_page(url):
             print("АШИБКА Элемент 'Описание' не был найден")
         
         try:
-            price = soup.find(
+            pre_price = soup.find(
                 'span', class_='product_region-select-text_price').text.strip()
         except:
             print("Ошибка при парсинге цены")
@@ -97,21 +103,18 @@ def parse_product_page(url):
         # Получаем URL изображения
         image_url = extract_image_url_from_url(url)
 
-        # Скачиваем изображение
-        downloaded_image_file_name = download_image(image_url)
 
-        # Открываем скачанное изображение в режиме чтения
-        with open(downloaded_image_file_name, 'rb') as f:
-            # Создаем объект ContentFile из изображения
-            image_content_file = ContentFile(f.read())
+        # Сохраняем изображение
+        image_file = download_image(image_url)
 
-        # Получаем содержимое из объекта ContentFile в виде байтовой строки
-        image_bytes = image_content_file.read()
-
-        # Создаем объект ImageFile из байтовой строки
-        image_file = ImageFile(image_bytes, name='image.jpg')
 
         driver.quit()
+        # Чистим цену
+
+        cleaned_price_string = re.sub(r'[^\d.]', '', pre_price)
+
+        price = float(cleaned_price_string)
+
 
         # Добавляем изображение в словарь product_info
         product_info = {
@@ -129,16 +132,25 @@ def parse_product_page(url):
         return None
 
 
+
 def download_image(url):
     response = requests.get(url)
     if response.status_code == 200:
-        with tempfile.NamedTemporaryFile(delete=False) as f:
-            f.write(response.content)
-            print("Картинка скачана")
-            return f.name.encode('utf-8')
+        # Создаем уникальное имя файла
+        file_name = f'{uuid.uuid4()}.jpg'
+
+        # Сохраняем изображение в памяти
+        content = ContentFile(response.content)
+
+        # Создаем экземпляр ImageFieldFile
+        image_file = ImageFile(content, name=file_name)
+
+        # Возвращаем экземпляр ImageFieldFile
+        return image_file
     else:
         print("Ошибка при загрузке картинки")
         return None
+
 
 
 def extract_image_url_from_url(url):

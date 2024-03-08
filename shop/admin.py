@@ -7,6 +7,12 @@ import os
 import io
 from django.core.files.uploadedfile import InMemoryUploadedFile
 import tempfile
+from django.core.files.base import ContentFile
+from django.core.files.images import ImageFile
+from django.core.files import File
+from io import BytesIO
+import re
+
 
 
 class GameAdmin(admin.ModelAdmin):
@@ -16,21 +22,10 @@ class GameAdmin(admin.ModelAdmin):
         if not change:  # Если это новая запись, а не изменение существующей
             url = form.cleaned_data['url']  # Получите URL из формы
             number_of_keys = form.cleaned_data['key_qty']  # Получите число ключей из формы
+            category = form.cleaned_data['category']  # Получите категорию из формы
             data = parse_product_page(url)  # Вызовите ваш парсер
             data['key_qty'] = number_of_keys  # Добавьте число ключей в данные
-
-             # Получите изображение из данных
-            image_file = data.pop('image', None)
-            if image_file:
-                # Прочитайте содержимое объекта ImageFile в байтовую строку
-                image_bytes = image_file.read()
-                
-                # Создайте объект InMemoryUploadedFile из байтовой строки
-                image_content = io.BytesIO(image_bytes)
-                obj.image.save(image_file.name, InMemoryUploadedFile(
-                    image_content, None, image_file.name, 'image/jpeg', len(image_bytes), None))
-            
-
+            data['category'] = category  # Добавьте категорию в данные
             obj = Game.objects.create(**data)  # Создайте новый объект Game
         else:
             super().save_model(request, obj, form, change)
