@@ -1,22 +1,18 @@
 from tempfile import TemporaryFile
-import tempfile
 import requests
 from bs4 import BeautifulSoup
 import re
 from django.core.files.base import ContentFile
 from django.core.files.images import ImageFile
-from django.core.files import File
-from io import BytesIO
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-import os
 import uuid
 from django.core.files.base import ContentFile
 
-# Парсер для получения данных с сайта cupicod в  словарь product_info по ключам 'title','description','price','rating'.
+# Парсер для получения данных с сайта cupicod в  словарь product_info по ключам 'title','description','price','rating', 'image.
 # А также с возможностью скачать изображение.
 
 
@@ -38,12 +34,16 @@ def parse_product_page(url):
 
         # Открываем страницу игры
         driver.get(url)
+
+
         try:
             # Ждем, пока загрузится страница
             WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.modal-content.popunder')))
         except:
-            print("первая загруза")
+            print("первая загрузка")
             # Закрываем рекламную плашку
+
+
         try:
 
             driver.execute_script("""
@@ -55,45 +55,47 @@ def parse_product_page(url):
             """)
         except:
             print("закрытие плашки")
+
+
         try:
             # Ждем, пока загрузится страница
             WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.switch_tab')))
         except:
-            print("вторая загруза")
+            print("вторая загрузка")
+
+
         # Находим элемент "Описание" по его содержимому
         tab = driver.find_element(By.XPATH, "//div[contains(text(), 'Описание')]")
-
         # Кликаем по элементу "Описание"
-        tab.click() 
+        tab.click()
+
 
         try:
             title = soup.find(
                 'h1', class_='max-mobile:hidden').text.strip()
         except:
             print("Ошибка при парсинге названия")
+
+
         # Ждем, пока загрузится описание
-            
-        time.sleep(3)
+        time.sleep(1)
         # Находим элемент описания
         description_elements = driver.find_element(By.CSS_SELECTOR, '.tab-desc-content')
-        print(description_elements)
 
         # Проверяем, что элемент был найден
-        try:
-            if description_elements:
-                # Получаем описание игры
-                description = description_elements.get_attribute('textContent')
-                print(description)
-            else:
-                print("Элемент 'Описание' не был найден")
-        except:
-            print("АШИБКА Элемент 'Описание' не был найден")
+        if description_elements:
+            # Получаем описание игры
+            description = description_elements.get_attribute('textContent')
+        else:
+            print("Элемент 'Описание' не был найден")
         
         try:
             pre_price = soup.find(
                 'span', class_='product_region-select-text_price').text.strip()
         except:
             print("Ошибка при парсинге цены")
+
+
         try:
             rating = soup.find(
                 'div', class_='game-ext-data__line').text.strip()
@@ -108,7 +110,7 @@ def parse_product_page(url):
         image_file = download_image(image_url)
 
 
-        driver.quit()
+        driver.quit()   
         # Чистим цену
 
         cleaned_price_string = re.sub(r'[^\d.]', '', pre_price)

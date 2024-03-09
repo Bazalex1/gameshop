@@ -25,7 +25,7 @@ class Game(models.Model):
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     rating = models.CharField(max_length=255)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=10000)
     key_qty = models.IntegerField()
 
     def save(self, *args, **kwargs):
