@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'registration.apps.RegistrationConfig',
     'rest_framework',
-    'api.apps.ApiConfig'
+    'api.apps.ApiConfig',
+    'user_profile.apps.UserProfileConfig'
 ]
 
 MIDDLEWARE = [
