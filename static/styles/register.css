@@ -1,5 +1,6 @@
 body{
-    background-color: #ffffff;
+	background-image: url('../images/register_background.png');
+    background-size: cover;
 }
 .centered-form{
 	margin-top: 25%;
@@ -8,4 +9,33 @@ body{
 .centered-form .panel{
 	background: rgba(255, 255, 255, 0.8);
 	box-shadow: rgba(0, 0, 0, 0.3) 20px 20px 20px;
+    background-color: black;
+	
+}
+.btn-info {
+    background-color: black;
+    color: white;
+}
+
+.form-control {
+    border-color: #269abc;
+    background-color: #000000;
+	color: #a39f9f
+}
+
+.panel-default>.panel-heading {
+    color: #ffffff;
+    background-color: #000000;
+    border-color: #269abc;
+}
+.panel-default {
+    border-color: #006189;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    background-color: white;
+    color: black;
+    opacity: 1;
+    padding: 5px;
+    border-radius: 50%;
 }

@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-    <head>
-    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <meta charset="UTF-8">
     <title>Register</title>
     <link rel="stylesheet" href="{% static 'styles/register.css' %}">
@@ -15,48 +16,53 @@
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
         	<div class="panel panel-default">
         		<div class="panel-heading">
-			    		<h3 class="panel-title">Please sign up for Gameshop</h3>
+			    		<h3 class="panel-title">Зарегистрируйтесь на Gameshop:</h3>
 			 			</div>
 			 			<div class="panel-body">
-			    		<form role="form">
-			    			<div class="row">
-			    				<div class="col-xs-6 col-sm-6 col-md-6">
-			    					<div class="form-group">
-			                <input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="First Name">
-			    					</div>
-			    				</div>
-			    				<div class="col-xs-6 col-sm-6 col-md-6">
-			    					<div class="form-group">
-			    						<input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Last Name">
-			    					</div>
-			    				</div>
-			    			</div>
-
-                            <div class="form-group">
-                                <input type="Login" name="Login" id="Login" class="form-control input-sm" placeholder="Login">
-                            </div>
-
-			    			<div class="form-group">
-			    				<input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email Address">
-			    			</div>
-
-
-			    			<div class="row">
-			    				<div class="col-xs-6 col-sm-6 col-md-6">
-			    					<div class="form-group">
-			    						<input type="password" name="password" id="password" class="form-control input-sm" placeholder="Password">
-			    					</div>
-			    				</div>
-			    				<div class="col-xs-6 col-sm-6 col-md-6">
-			    					<div class="form-group">
-			    						<input type="password" name="password_confirmation" id="password_confirmation" class="form-control input-sm" placeholder="Confirm Password">
-			    					</div>
-			    				</div>
-			    			</div>
-			    			
-			    			<input type="submit" value="Register" class="btn btn-info btn-block">
-			    		
-			    		</form>
+							<form role="form" method="post">
+								{% csrf_token %}
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											{{ form.first_name.errors }}
+											<input type="text" name="first_name" id="first_name" class="form-control input-sm" placeholder="Имя">
+										</div>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											{{ form.last_name.errors }}
+											<input type="text" name="last_name" id="last_name" class="form-control input-sm" placeholder="Фамилия"	>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									{{ form.username.errors }}
+									<input type="Login" name="username" id="username" class="form-control input-sm" placeholder="Логин">
+								</div>
+								<div class="form-group">
+									{{ form.email.errors }}
+									<input type="email" name="email" id="email" class="form-control input-sm" placeholder="Email">
+								</div>
+								<div class="form-group">
+									{{ form.birth_date.errors }}
+									<input type="date" name="birth_date" id="birth_date" class="form-control input-sm" placeholder="Дата Рождения">
+								</div>
+								<div class="row">
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											{{ form.password1.errors }}
+											<input type="password" name="password1" id="password1" class="form-control input-sm" placeholder="Пароль">
+										</div>
+									</div>
+									<div class="col-xs-6 col-sm-6 col-md-6">
+										<div class="form-group">
+											{{ form.password2.errors }}
+											<input type="password" name="password2" id="password2" class="form-control input-sm" placeholder="Повторите пароль">
+										</div>
+									</div>
+								</div>
+								<input type="submit" value="Регистрация" class="btn btn-info btn-block ">
+							</form>
 			    	</div>
 	    		</div>
     		</div>

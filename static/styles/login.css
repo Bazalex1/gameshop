@@ -1,0 +1,16 @@
+@import url('register.css');
+
+.input {
+    border-color: black;
+}
+input[type=submit].btn-block {
+    background-color: black;
+    color: white;
+    margin-left: 10%;
+    width: 80%;
+}
+
+.none_auth{
+    margin-left: 10%;
+    color: #797979;
+}
