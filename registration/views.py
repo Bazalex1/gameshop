@@ -20,10 +20,8 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            print("succes")
             return redirect('shop:index')  # перенаправление на другую страницу после успешной авторизации
         else:
-            print("no succes")
             # обработка ошибки авторизации
             return render(request, 'registration/login.html', {'error_message': 'Invalid login or password'})
     else:

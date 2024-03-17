@@ -9,7 +9,7 @@ class GameForm(forms.ModelForm):
     title = forms.CharField(label='Название',required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     price = forms.DecimalField(label='Цена',required=False, widget=forms.NumberInput(attrs={'class': 'form-control'}))
     rating = forms.CharField(label='Рейтинг',required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
-    description = forms.CharField(label='Описание', widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
+    description = forms.CharField(label='Описание', required=False, widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 5}))
     image = forms.ImageField(label='Изображение', required=False, widget=forms.ClearableFileInput(attrs={'class': 'form-control'}))
 
     class Meta:

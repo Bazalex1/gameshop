@@ -11,32 +11,36 @@
     <link rel="stylesheet" href="{% static 'styles/login.css' %}">
 </head>
 <body>
-
     <div class="container">
         <div class="row centered-form">
         <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-4">
         	<div class="panel panel-default">
         		<div class="panel-heading">
-			    		<h3 class="panel-title">Войдите:</h3>
-			 			</div>
-			 			<div class="panel-body">
-                            <form role="form" method="post">
-                                {% csrf_token %}
-								<div class="form-group">
-									{{ form.username.errors }}
-									<input type="Login" name="username" id="username" class="form-control input-sm" placeholder="Логин">
-								</div>
-                                    <div class="form-group">
-                                        {{ form.password1.errors }}
-                                        <input type="password" name="password1" id="password1" class="form-control input-sm" placeholder="Пароль">
-                                    </div>
-								</div>
-                                <input type="submit" value="Войти" class="btn btn-info btn-block ">
-                            </form>
-                            <div class = "none_auth">
-                                <p>У вас нет Аккаунта? <a href="{% url 'registration:index' %}">Зарегистрируйтесь здесь</a>.</p>
+                    <h3 class="panel-title">Войдите:</h3>
+                    </div>
+                    <div class="panel-body">
+                        <form role="form" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.username.errors }}
+                                <input type="Login" name="username" id="username" class="form-control input-sm" placeholder="Логин">
                             </div>
-			    	    </div>
+                                <div class="form-group">
+                                    {{ form.password1.errors }}
+                                    <input type="password" name="password1" id="password1" class="form-control input-sm" placeholder="Пароль">
+                                </div>
+                            </div>
+                            {% if error_message %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ error_message }}
+                            </div>
+                            {% endif %}
+                            <input type="submit" value="Войти" class="btn btn-info btn-block ">
+                        </form>
+                        <div class = "none_auth">
+                            <p>У вас нет Аккаунта? <a href="{% url 'registration:index' %}">Зарегистрируйтесь здесь</a>.</p>
+                        </div>
+                    </div>
 	    		</div>
     		</div>
     	</div>
