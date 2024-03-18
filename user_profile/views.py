@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, UpdateView
 from django.urls import reverse_lazy
 from .models import CustomUser
-from .forms import CustomUserChangeForm
+from .forms import CustomUserChangeForm, CustomPasswordChangeForm
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import login
@@ -25,19 +25,30 @@ class CustomUserDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = CustomUserChangeForm(instance=self.request.user)
+        context['password_form'] = CustomPasswordChangeForm(user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
         form = CustomUserChangeForm(request.POST, instance=request.user)
-        if form.is_valid():
-            print(form.cleaned_data)
-            user = form.save()
-            user.refresh_from_db()  # обновляем объект пользователя из базы данных
-            login(request, user)  # авторизуем пользователя с новым логином
-            return redirect('profile')  # перенаправление на страницу профиля после сохранения
-        else:
-            print(form.errors)
-            context = self.get_context_data(**kwargs)
-            context['form'] = form
-            return self.render_to_response(context)
+        password_form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+
+        if 'save_profile' in request.POST:
+            if form.is_valid():
+                user = form.save()
+                user.refresh_from_db()
+                login(request, user)
+                return redirect('user_profile:profile_detail')
+            else:
+                context = self.get_context_data(**kwargs)
+                context['form'] = form
+                return self.render_to_response(context)
+
+        if 'change_password' in request.POST:
+            if password_form.is_valid():
+                password_form.save()
+                return redirect('user_profile:profile_detail')
+            else:
+                context = self.get_context_data(**kwargs)
+                context['password_form'] = password_form
+                return self.render_to_response(context)

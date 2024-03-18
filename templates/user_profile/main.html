@@ -21,7 +21,7 @@
     <div class="row">
       <div class="col-md-3 border-right">
         <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" 
-          width="150px" src="{% static 'images/men.jpg' %}"><span class="font-weight-bold"> {{ profile.first_name}} </span><span class="text-black-50">{{ profile.email}}</span><span> </span></div>
+          width="150px" src="{% static 'images/men.jpg' %}"><span class="font-weight-bold"> {{ form.first_name.value}} , {{ form.username.value}}  </span><span class="text-black-50">{{form.email.value}}</span><span> </span></div>
     </div>
       <div class="col-md-5 border-right">
          <div class="p-3 py-5"> {% comment %} Это карточка {% endcomment %}
@@ -31,29 +31,63 @@
               <h4 class="text-right">Profile Settings</h4>
             </div>
             <div class="row mt-2">
-              <div class="col-md-6"><label class="labels">Имя</label><input type="text" class="form-control" placeholder="first name" value="{{ profile.first_name}}"></div>
-              <div class="col-md-6"><label class="labels">Фамилия</label><input type="text" class="form-control" value="{{ profile.last_name}}" placeholder="surname"></div>
+              <div class="col-md-6">
+                <label class="labels">Имя</label>
+                {{ form.first_name.errors }}
+                <input type="text" class="form-control" placeholder="first name" name="first_name" value="{{ form.first_name.value }}">
+              </div>
+              <div class="col-md-6">
+                <label class="labels">Фамилия</label>
+                {{ form.last_name.errors }}
+                <input type="text" class="form-control" value="{{ form.last_name.value }}" placeholder="surname" name="last_name">
+              </div>
             </div>
             <div class="row mt-3">
-              
               <div class="col-md-12">
-                
-                <div class="form-group">
-                  {{ form.username.errors }}
-                  
-                  <label class="labels">Логин</label><input type="Login" name="username" id="username" class="form-control input-sm" placeholder="Введите ваш Логин" value="{{ profile.username}}">
-                  
-                  
-                </div>
+                <label class="labels">Логин</label>
+                {{ form.username.errors }}
+                <input type="text" name="username" id="username" class="form-control input-sm" placeholder="Введите ваш Логин" value="{{ form.username.value }}">
               </div>
-              <div class="col-md-12"><label class="labels">Email</label><input type="text" class="form-control" placeholder="Введите ваш email" value="{{ profile.email }}"></div>
-              <div class="col-md-12"><label class="labels">День рождения</label><input type="text" class="form-control" placeholder="Введите вашу дату рождения" value="{{ profile.birth_date}}"></div>
-              <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit">Save Profile</button></div>
+              <div class="col-md-12">
+                <label class="labels">Email</label>
+                {{ form.email.errors }}
+                <input type="email" name="email" class="form-control" placeholder="Введите ваш email" value="{{ form.email.value }}">
+              </div>
+              <div class="col-md-12">
+                <label class="labels">День рождения</label>
+                {{ form.birth_date.errors }}
+                <input type="date" name="birth_date" class="form-control" value="{{ form.birth_date.value|date:'Y-m-d' }}">
+              </div>
+              <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit" name="save_profile">Save Profile</button></div>
           </form>
               
             </div>
           </div>
-          
+          <form method="post">
+            {% csrf_token %}
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="labels">Старый пароль</label>
+                {{ password_form.old_password.errors }}
+                <input type="password" name="old_password" class="form-control" placeholder="Введите ваш старый пароль">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="labels">Новый пароль</label>
+                {{ password_form.new_password1.errors }}
+                <input type="password" name="new_password1" class="form-control" placeholder="Введите ваш новый пароль">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-md-12">
+                <label class="labels">Подтверждение нового пароля</label>
+                {{ password_form.new_password2.errors }}
+                <input type="password" name="new_password2" class="form-control" placeholder="Подтвердите ваш новый пароль">
+              </div>
+            </div>
+            <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit" name="change_password">Change Password</button></div>
+          </form>
           {% comment %} <div class="col-md-4">
             <div class="p-3 py-5">
               <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
