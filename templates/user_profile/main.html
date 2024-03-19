@@ -98,11 +98,11 @@
               <div class="comment">
                 <div class="comment-header">
                   <a href="{% url 'shop:single_game' game_id=comment.game.id %}">{{ comment.game.title }}</a>
-                  <small>Оставлено: {{ comment.created_at|date:'d.m.Y H:i' }}</small>
                 </div>
                 <div class="comment-body">
                   <strong>{{ comment.text }}</strong>
                 </div>
+                <small>Оставлено: {{ comment.created_at|date:'d.m.Y H:i' }}</small>
                 {% if comment.user == user %}
                 <form action="{% url 'user_profile:delete_comment' comment.id %}" method="post">
                   {% csrf_token %}
