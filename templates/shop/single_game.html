@@ -4,55 +4,57 @@
 
 {% block content %}
 ОДНА ИГРА
-<table class="table mt-5 table-bordered table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Rating</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Key_qty</th>
-            <th>Buy</th>
-        </tr>
-    </thead>
-    <tbody> 
-        <tr>
-            <td><img src="{{ game.image.url }}" alt="{{ game.title }}"></td>
-            <td>
-                <a href= {% url "shop:single_game" game.id %}>{{game.title}}</a>
-            </td>
-            <td>{{game.price}}</td>
-            <td>{{game.rating}}</td>
-            <td>{{game.description}}</td>
-            <td>{{game.category}}</td>
-            <td>{{game.key_qty}}</td>
-            <td><button class="btn btn-primary">buy</button></tdh>
-        </tr>
-    </tbody>
-</table>    
+<div class="container rounded bg-white mt-3 mb-5">
+  <table class="table mt-5 table-bordered table-striped table-hover">
+      <thead class="table-dark mt-5">
+          <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Rating</th>
+              <th>Description</th>
+              <th>Category</th>
+              <th>Key_qty</th>
+              <th>Buy</th>
+          </tr>
+      </thead>
+      <tbody> 
+          <tr>
+              <td><img src="{{ game.image.url }}" alt="{{ game.title }}"></td>
+              <td>
+                  <a href= {% url "shop:single_game" game.id %}>{{game.title}}</a>
+              </td>
+              <td>{{game.price}}</td>
+              <td>{{game.rating}}</td>
+              <td>{{game.description}}</td>
+              <td>{{game.category}}</td>
+              <td>{{game.key_qty}}</td>
+              <td><button class="btn btn-primary">buy</button></tdh>
+          </tr>
+      </tbody>
+  </table>    
 
-<h2>Комментарии</h2>
-{% for comment in comments %}
-  <div class="comment">
-    <div class="d-flex justify-content-between">
-      <span class="comment-user">{{ comment.user }}:</span>
-      <span class="comment-time text-muted">{{ comment.created_at }}</span>
+  <h2>Комментарии</h2>
+  {% for comment in comments %}
+    <div class="comment">
+      <div class="d-flex justify-content-between">
+        <span class="comment-user">{{ comment.user }}:</span>
+        <span class="comment-time text-muted">{{ comment.created_at }}</span>
+      </div>
+      <span class="comment-text"><b>{{ comment.text }}</b></span>
     </div>
-    <span class="comment-text"><b>{{ comment.text }}</b></span>
-  </div>
-{% empty %}
-  <p class="text-center">Пока нет комментариев</p>
-{% endfor %}
+  {% empty %}
+    <p class="text-center">Пока нет комментариев</p>
+  {% endfor %}
 
-<div class="form-group">
-  <h2>Оставить комментарий</h2>
-  <form method="post">
-    {% csrf_token %}
-    <textarea name="text" class="form-control" rows="5" required></textarea>
-    <button class="btn btn-primary profile-button" type="submit">Отправить</button>
-  </form>
+  <div class="form-group">
+    <h2>Оставить комментарий</h2>
+    <form method="post">
+      {% csrf_token %}
+      <textarea name="text" class="form-control" rows="5" required></textarea>
+      <button class="btn mt-3 mb-3 btn-primary profile-button" type="submit">Отправить</button>
+    </form>
+  </div>
 </div>
 
 {% endblock content %}

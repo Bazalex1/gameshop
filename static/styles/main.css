@@ -1,3 +1,6 @@
+body {
+    background-image: url('../images/beg.jpg')!important;
+}
 .navbar-nav .nav-link.active, .navbar-nav .nav-link.show{
     color: #ffffff; /* цвет текста */
 }
