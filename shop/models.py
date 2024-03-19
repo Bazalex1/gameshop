@@ -18,7 +18,7 @@ class Category(models.Model):
 class Game(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
-    price = models.FloatField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
 
     image = models.ImageField(
         upload_to="game_img", height_field=None, width_field=None, max_length=None)

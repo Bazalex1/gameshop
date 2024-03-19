@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'api.apps.ApiConfig',
     'user_profile.apps.UserProfileConfig',
-    'comments.apps.CommentsConfig'
+    'comments.apps.CommentsConfig',
+    'cart.apps.CartConfig'
 ]
 
 MIDDLEWARE = [

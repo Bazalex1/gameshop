@@ -11,6 +11,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import time
 import uuid
 from django.core.files.base import ContentFile
+from decimal import Decimal
 
 # Парсер для получения данных с сайта cupicod в  словарь product_info по ключам 'title','description','price','rating', 'image.
 # А также с возможностью скачать изображение.
@@ -115,7 +116,7 @@ def parse_product_page(url):
 
         cleaned_price_string = re.sub(r'[^\d.]', '', pre_price)
 
-        price = float(cleaned_price_string)
+        price = Decimal(cleaned_price_string)
 
 
         # Добавляем изображение в словарь product_info

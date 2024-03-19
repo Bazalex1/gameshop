@@ -29,7 +29,12 @@
               <td>{{game.description}}</td>
               <td>{{game.category}}</td>
               <td>{{game.key_qty}}</td>
-              <td><button class="btn btn-primary">buy</button></tdh>
+              <td>
+                <form method="post" action="{% url 'cart:add_to_cart' game.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary">Купить</button>
+                </form>
+              </tdh>
           </tr>
       </tbody>
   </table>    
