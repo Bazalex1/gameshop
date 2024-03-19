@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import DetailView, UpdateView
 from django.urls import reverse_lazy
@@ -8,6 +8,10 @@ from django.shortcuts import redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import login
 from comments.models import Comment
+from django.contrib.auth.decorators import login_required
+from comments.models import Comment
+
+
 
 # Create your views here.
 class CustomUserDetailView(LoginRequiredMixin, DetailView):
@@ -54,3 +58,15 @@ class CustomUserDetailView(LoginRequiredMixin, DetailView):
                 context = self.get_context_data(**kwargs)
                 context['password_form'] = password_form
                 return self.render_to_response(context)
+            
+
+
+
+
+@login_required
+def delete_comment(request, comment_id):
+    comment = get_object_or_404(Comment, id=comment_id)
+    if comment.user != request.user:
+        return redirect('user_profile:profile_detail')
+    comment.delete()
+    return redirect('user_profile:profile_detail')

@@ -103,6 +103,12 @@
                 <div class="comment-body">
                   <strong>{{ comment.text }}</strong>
                 </div>
+                {% if comment.user == user %}
+                <form action="{% url 'user_profile:delete_comment' comment.id %}" method="post">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-primary profile-button">Удалить</button>
+                </form>
+                {% endif %}
               </div>
             {% empty %}
               <p class="text-center">Пока нет комментариев</p>
