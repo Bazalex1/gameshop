@@ -7,6 +7,7 @@ from .forms import CustomUserChangeForm, CustomPasswordChangeForm
 from django.shortcuts import redirect
 from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import login
+from comments.models import Comment
 
 # Create your views here.
 class CustomUserDetailView(LoginRequiredMixin, DetailView):
@@ -26,6 +27,7 @@ class CustomUserDetailView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['form'] = CustomUserChangeForm(instance=self.request.user)
         context['password_form'] = CustomPasswordChangeForm(user=self.request.user)
+        context['comments'] = Comment.objects.filter(user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):

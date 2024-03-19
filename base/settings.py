@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'registration.apps.RegistrationConfig',
     'rest_framework',
     'api.apps.ApiConfig',
-    'user_profile.apps.UserProfileConfig'
+    'user_profile.apps.UserProfileConfig',
+    'comments.apps.CommentsConfig'
 ]
 
 MIDDLEWARE = [

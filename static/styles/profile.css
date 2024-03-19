@@ -1,6 +1,3 @@
-body {
-    background: rgb(99, 39, 120)
-}
 
 .form-control:focus {
     box-shadow: none;
@@ -41,4 +38,45 @@ body {
     color: #fff;
     cursor: pointer;
     border: solid 1px #BA68C8
+}
+
+
+.profile-settings {
+    float: left;
+}
+
+.comments {
+    float: right;
+}
+
+.comment {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.comment-header {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.comment-header a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.comment-header a:hover {
+    text-decoration: underline;
+}
+
+.comment-body {
+    font-size: 16px;
+    color: #333;
+}
+
+.comment-body strong {
+    font-weight: bold;
 }

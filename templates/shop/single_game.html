@@ -32,4 +32,18 @@
         </tr>
     </tbody>
 </table>    
+
+<h2>Комментарии</h2>
+{% for comment in comments %}
+  <p>{{ comment.user }}: {{ comment.text }}</p>
+{% empty %}
+  <p>Нет комментариев</p>
+{% endfor %}
+
+<h2>Оставить комментарий</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Отправить</button>
+
 {% endblock content %}
