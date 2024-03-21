@@ -28,6 +28,14 @@ class Game(models.Model):
     description = models.CharField(max_length=10000)
     key_qty = models.IntegerField()
 
+    def get_rating_color(self):
+        if 'положительные' in self.rating:
+            return 'green'
+        elif 'Смешанные' in self.rating:
+            return 'yellow'
+        else:
+            return 'red'
+
     def save(self, *args, **kwargs):
         if self.image:
             # Получаем расширение изображения

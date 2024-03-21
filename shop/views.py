@@ -7,8 +7,10 @@ from comments.forms import CommentForm
 
 
 def index(request):
-    games = Game.objects.all()
-    return render(request, "shop/main.html", {"games": games})
+    # Список из 5 игр, которые вы хотите отобразить на главной странице
+    featured_games = Game.objects.filter(id__in=[27, 28, 30, 32, 33])
+    context = {'featured_games': featured_games}
+    return render(request, 'shop/main.html', context)
 
 
 def game_list(request):
