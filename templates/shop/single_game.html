@@ -1,64 +1,53 @@
 {% extends "base.html" %}
+{% load static %}
 {% block Title %}All Games {% endblock Title %}
 
 
 {% block content %}
-ОДНА ИГРА
 <div class="container rounded bg-white mt-3 mb-5">
-  <table class="table mt-5 table-bordered table-striped table-hover">
-      <thead class="table-dark mt-5">
-          <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Price</th>
-              <th>Rating</th>
-              <th>Description</th>
-              <th>Category</th>
-              <th>Key_qty</th>
-              <th>Buy</th>
-          </tr>
-      </thead>
-      <tbody> 
-          <tr>
-              <td><img src="{{ game.image.url }}" alt="{{ game.title }}"></td>
-              <td>
-                  <a href= {% url "shop:single_game" game.id %}>{{game.title}}</a>
-              </td>
-              <td>{{game.price}}</td>
-              <td>{{game.rating}}</td>
-              <td>{{game.description}}</td>
-              <td>{{game.category}}</td>
-              <td>{{game.key_qty}}</td>
-              <td>
-                <form method="post" action="{% url 'cart:add_to_cart' game.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Купить</button>
-                </form>
-              </tdh>
-          </tr>
-      </tbody>
-  </table>    
-
-  <h2>Комментарии</h2>
-  {% for comment in comments %}
-    <div class="comment">
-      <div class="d-flex justify-content-between">
-        <span class="comment-user">{{ comment.user }}:</span>
-        <span class="comment-time text-muted">{{ comment.created_at }}</span>
+  <div class="game-page">
+    <div class="game-page__card">
+      <div class="game-page__image-container">
+        <div class="game-card__img">
+          <img src="{% static 'images' %}/{{ game.id }}.jpg" alt="{{ game.title }}" class="game-page__image">
+        </div>
+        <div class="game-page__rating">{{ game.rating }}</div>
       </div>
-      <span class="comment-text"><b>{{ comment.text }}</b></span>
+      <div class="game-page__info">
+        <h1 class="game-page__title">{{ game.title }}</h1>
+        <p class="game-page__description">{{ game.description }}</p>
+        <div class="game-page__price-container">
+          <p class="game-page__price">{{ game.price }} ₽</p>
+          <form method="post" action="{% url 'cart:add_to_cart' game.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Купить</button>
+          </form>
+        </div>
+      </div>
     </div>
-  {% empty %}
-    <p class="text-center">Пока нет комментариев</p>
-  {% endfor %}
+  </div>
+  <div class= "comments_game_page">
+    <h2>Комментарии</h2>
+    {% for comment in comments %}
+      <div class="comment">
+        <div class="d-flex justify-content-between">
+          <span class="comment-user">{{ comment.user }}:</span>
+          <span class="comment-time text-muted">{{ comment.created_at }}</span>
+        </div>
+        <span class="comment-text"><b>{{ comment.text }}</b></span>
+      </div>
+    {% empty %}
+      <p class="text-center">Пока нет комментариев</p>
+    {% endfor %}
 
-  <div class="form-group">
-    <h2>Оставить комментарий</h2>
-    <form method="post">
-      {% csrf_token %}
-      <textarea name="text" class="form-control" rows="5" required></textarea>
-      <button class="btn mt-3 mb-3 btn-primary profile-button" type="submit">Отправить</button>
-    </form>
+    <div class="form-group">
+      <h2>Оставить комментарий</h2>
+      <form method="post">
+        {% csrf_token %}
+        <textarea name="text" class="form-control" rows="5" required></textarea>
+        <button class="btn mt-3 mb-3 btn-primary profile-button" type="submit">Отправить</button>
+      </form>
+    </div>
   </div>
 </div>
 

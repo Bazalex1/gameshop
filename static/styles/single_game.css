@@ -1,0 +1,91 @@
+.game-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 63vh;
+  }
+  
+  .game-page__card {
+    display: flex;
+    align-items: center;
+    background-color: #202126;
+    border-radius: 1rem;
+    padding: 2rem;
+  }
+  
+  .game-page__image-container {
+    position: relative;
+    margin-right: 2rem;
+  }
+  
+  .game-page__image {
+    width: 300px;
+    height: 300px;
+    object-fit: contain;
+    border-radius: 1rem;
+  }
+  
+  .game-page__rating {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #ffe500;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+  }
+  
+  .game-page__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .game-page__title {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 1;
+    text-align: left;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  
+  .game-page__description {
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  
+  .game-page__price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  
+  .game-page__buy-button {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1;
+    text-align: center;
+    color: #fff;
+    background-color: #fd3902;
+    border: none;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .game-page__buy-button:hover {
+    background-color: #e83201;
+  }
+  
