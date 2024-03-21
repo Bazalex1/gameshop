@@ -24,6 +24,7 @@ body {
     border-radius: 1rem;
     padding: 10px;
     box-sizing: border-box;
+    text-decoration: none !important;
   }
 
 
@@ -47,7 +48,6 @@ body {
     margin-top: 1rem;
     min-height: 29px;
 }
-
 
 .game-card__reviews--yellow{
     color: #ffe500;
@@ -75,9 +75,12 @@ body {
     display: flex;
     height: 1.5rem;
 }
+.prices::after {
+    content: "₽";
+  }
 
 .game-card__prices {
-    margin-top: 0.75rem;
+    margin-top: auto;
 }
 
 

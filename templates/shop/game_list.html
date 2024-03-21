@@ -3,40 +3,19 @@
 
 
 {% block content %}
-ЭТО ГЕЙМ ЛИСТ
-<table class="table mt-5 table-bordered table-striped table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>Image</th>
-            <th>Title</th>
-            <th>Price</th>
-            <th>Rating</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Key_qty</th>
-            <th>Buy</th>
-        </tr>
-    </thead>
-    <tbody> 
-        {% for game in games %}
-        <tr>
-            <td><img src="{{ game.image.url }}" alt="{{ game.title }}"></td>
-            <td>
-                <a href= {% url "shop:single_game" game.id %}>{{game.title}}</a>
-            </td>
-            <td>{{game.price}}</td>
-            <td>{{game.rating}}</td>
-            <td>{{game.description}}</td>
-            <td>{{game.category}}</td>
-            <td>{{game.key_qty}}</td>
-            <td>
-                <form method="post" action="{% url 'cart:add_to_cart' game.id %}">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-primary">Купить</button>
-                </form>
-            </tdh>
-        </tr>
-        {% endfor %} 
-    </tbody>
-</table>    
+{% for game in games %}
+<a href="{% url 'shop:single_game' game.id %}">
+  <div class="game-card-list">
+        <img src="{{ game.image.url }}" alt="{{ game.name }}" class="game-card__image">
+        <div class="game-card__content">
+            <h2 class="game-card__name">{{ game.title }}</h2>
+            <p class="game-card__category">{{ game.category }}</p>
+        </div>
+        <p class="game-card__price">{{ game.price }} ₽</p>
+    </div>
+</a>
+{% endfor %}
+
+
+
 {% endblock content %}

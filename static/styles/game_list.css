@@ -1,0 +1,57 @@
+.game-card-list {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+    border: 2px solid #ccc;
+    border-radius: 7px;
+    border-color: #cbcbcb;
+    overflow: hidden;
+    width: auto;
+    background-color: black;
+  }
+  
+a {
+    text-decoration: none !important;
+}
+.game-card__image {
+    flex-shrink: 0;
+    width: 100px;
+    height: 100%;
+    object-fit: cover;
+}
+
+.game-card__content {
+    padding: 10px;
+    flex-grow: 1;
+}
+
+.game-card__name {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -.025em;
+    line-height: 29px;
+    margin-top: 1rem;
+    min-height: 29px;
+}
+
+.game-card__category {
+    margin: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.game-card__price {
+    margin: 0;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+    align-items: flex-end;
+    -moz-column-gap: .5rem;
+    column-gap: 0.5rem;
+    display: flex;
+    height: 1.5rem;
+    margin-right: 30px;
+}
