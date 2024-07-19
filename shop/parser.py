@@ -16,123 +16,80 @@ from decimal import Decimal
 # Парсер для получения данных с сайта cupicod в  словарь product_info по ключам 'title','description','price','rating', 'image.
 # А также с возможностью скачать изображение.
 
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 
 def parse_product_page(url):
-    # Отправляем GET-запрос к странице магазина
-    response = requests.get(url)
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")  # Безголовой режим
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument("--disable-dev-shm-usage")
+    chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--remote-debugging-port=9222")
 
-    # Проверяем успешность запроса
-    if response.status_code == 200:
-        # Создаем объект BeautifulSoup для парсинга HTML
-        soup = BeautifulSoup(response.text, 'html.parser')
-        title = None
-        description = None
-        price = None
-        rating = None
+    service = Service('/usr/local/bin/chromedriver')  # Путь к ChromeDriver
 
-         # Создаем экземпляр драйвера браузера
-        driver = webdriver.Chrome()
+    driver = webdriver.Chrome(service=service, options=chrome_options)
+    driver.get(url)
 
-        # Открываем страницу игры
-        driver.get(url)
+    try:
+        # Ждем, пока загрузится страница
+        WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.modal-content.popunder')))
+    except:
+        print("первая загрузка")
 
+    try:
+        driver.execute_script("""
+            var close = document.querySelector('.modal__close');
+            close.click();
+        """)
+    except:
+        print("закрытие плашки")
 
-        try:
-            # Ждем, пока загрузится страница
-            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.modal-content.popunder')))
-        except:
-            print("первая загрузка")
-            # Закрываем рекламную плашку
+    try:
+        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.switch_tab')))
+    except:
+        print("вторая загрузка")
 
+    tab = driver.find_element(By.XPATH, "//div[contains(text(), 'Описание')]")
+    tab.click()
 
-        try:
+    time.sleep(1)
+    description_elements = driver.find_element(By.CSS_SELECTOR, '.tab-desc-content')
+    description = description_elements.get_attribute('textContent') if description_elements else None
 
-            driver.execute_script("""
-                // Находим элемент "Закрыть"
-                var close = document.querySelector('.modal__close');
+    title = None
+    pre_price = None
+    rating = None
 
-                // Кликаем по элементу "Закрыть"
-                close.click();
-            """)
-        except:
-            print("закрытие плашки")
+    try:
+        soup = BeautifulSoup(driver.page_source, 'html.parser')
+        title = soup.find('h1', class_='max-mobile:hidden').text.strip()
+        pre_price = soup.find('span', class_='product_region-select-text_price').text.strip()
+        rating = soup.find('div', class_='game-ext-data__line').text.strip()
+    except:
+        print("Ошибка при парсинге")
 
+    image_url = extract_image_url_from_url(url)
+    image_file = download_image(image_url)
+    
+    driver.quit()
+    
+    cleaned_price_string = re.sub(r'[^\d.]', '', pre_price)
+    price = Decimal(cleaned_price_string)
 
-        try:
-            # Ждем, пока загрузится страница
-            WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, '.switch_tab')))
-        except:
-            print("вторая загрузка")
+    product_info = {
+        'title': title,
+        'description': description,
+        'price': price,
+        'rating': rating,
+        'image': image_file
+    }
 
+    return product_info
 
-        # Находим элемент "Описание" по его содержимому
-        tab = driver.find_element(By.XPATH, "//div[contains(text(), 'Описание')]")
-        # Кликаем по элементу "Описание"
-        tab.click()
+# Другие ваши функции
 
-
-        try:
-            title = soup.find(
-                'h1', class_='max-mobile:hidden').text.strip()
-        except:
-            print("Ошибка при парсинге названия")
-
-
-        # Ждем, пока загрузится описание
-        time.sleep(1)
-        # Находим элемент описания
-        description_elements = driver.find_element(By.CSS_SELECTOR, '.tab-desc-content')
-
-        # Проверяем, что элемент был найден
-        if description_elements:
-            # Получаем описание игры
-            description = description_elements.get_attribute('textContent')
-        else:
-            print("Элемент 'Описание' не был найден")
-        
-        try:
-            pre_price = soup.find(
-                'span', class_='product_region-select-text_price').text.strip()
-        except:
-            print("Ошибка при парсинге цены")
-
-
-        try:
-            rating = soup.find(
-                'div', class_='game-ext-data__line').text.strip()
-        except:
-            print("Ошибка при парсинге рейтинга")
-
-        # Получаем URL изображения
-        image_url = extract_image_url_from_url(url)
-
-
-        # Сохраняем изображение
-        image_file = download_image(image_url)
-
-
-        driver.quit()   
-        # Чистим цену
-
-        cleaned_price_string = re.sub(r'[^\d.]', '', pre_price)
-
-        price = Decimal(cleaned_price_string)
-
-
-        # Добавляем изображение в словарь product_info
-        product_info = {
-            'title': title,
-            'description': description,
-            'price': price,
-            'rating': rating,
-            'image': image_file
-        }
-
-        return product_info
-
-    else:
-        print("Ошибка при загрузке страницы")
-        return None
 
 
 
