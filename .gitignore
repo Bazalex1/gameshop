@@ -13,8 +13,13 @@ env/
 db.sqlite3
 *.log
 
-# Media
-/media/
+# Игнорируем все файлы в media/game_img
+/media/game_img/*
+
+# Исключаем из игнорирования саму папку и .gitkeep файл
+!/media/game_img/
+!/media/game_img/.gitkeep
+
 # If using Django's static files
 /staticfiles/
 
