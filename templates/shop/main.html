@@ -8,7 +8,7 @@
     {% for game in featured_games %}
         <a href="{% url 'shop:single_game' game.id %}" class="game-card">
         <div class="game-card__img">
-            <img src="{% static 'images' %}/{{ game.id }}.jpg" alt="{{ game.title }}">
+            <img src="{{ game.image.url }}" alt="{{ game.name }}">
         </div>
         <div class="game-card__name">
             {{ game.title }}

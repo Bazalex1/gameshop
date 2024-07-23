@@ -2,14 +2,13 @@
 {% load static %}
 {% block Title %}All Games {% endblock Title %}
 
-
 {% block content %}
 <div class="container rounded bg-white mt-3 mb-5">
   <div class="game-page">
     <div class="game-page__card">
       <div class="game-page__image-container">
         <div class="game-card__img">
-          <img src="{% static 'images' %}/{{ game.id }}.jpg" alt="{{ game.title }}" class="game-page__image">
+          <img src="{{ game.image.url }}" alt="{{ game.name }}" class="game-page__image">
         </div>
         <div class="game-page__rating">{{ game.rating }}</div>
       </div>
@@ -20,13 +19,13 @@
           <p class="game-page__price">{{ game.price }} ₽</p>
           <form method="post" action="{% url 'cart:add_to_cart' game.id %}">
             {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Купить</button>
+            <button type="submit" class="btn btn-primary game-page__buy-button">Купить</button>
           </form>
         </div>
       </div>
     </div>
   </div>
-  <div class= "comments_game_page">
+  <div class="comments_game_page">
     <h2>Комментарии</h2>
     {% for comment in comments %}
       <div class="comment">
@@ -50,5 +49,4 @@
     </div>
   </div>
 </div>
-
 {% endblock content %}

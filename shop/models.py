@@ -19,12 +19,10 @@ class Game(models.Model):
     title = models.CharField(max_length=255)
     created_at = models.DateTimeField(default=timezone.now)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-
     image = models.ImageField(
         upload_to="game_img", height_field=None, width_field=None, max_length=None)
-
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    rating = models.CharField(max_length=255)
+    category = models.ForeignKey('Category', on_delete=models.CASCADE)
+    rating = models.CharField(max_length=253)
     description = models.CharField(max_length=10000)
     key_qty = models.IntegerField()
 
@@ -47,20 +45,9 @@ class Game(models.Model):
             # Обновляем имя изображения перед сохранением
             self.image.name = os.path.join("game_img", new_image_name)
 
-            # Масштабируем изображение
-            img = Image.open(self.image)
-            desired_size = (270, 120)
-            img.thumbnail(desired_size)
-
-            # Сохраняем масштабированное изображение
-            img.save(os.path.join("media", self.image.name))
-
-            self.image = os.path.join("game_img", new_image_name)
-
         super().save(*args, **kwargs)
-
-
 
     def __str__(self):
         return self.title
+
     

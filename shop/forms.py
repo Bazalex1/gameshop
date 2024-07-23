@@ -2,8 +2,6 @@ from django import forms
 from .models import Game, Category
 
 class GameForm(forms.ModelForm):
-    creation_method = forms.ChoiceField(choices=[('automatic', 'Автоматически'), ('manual', 'Вручную')], required=False, label='Способ создания (Если выбран автоматический, необходимо заполнить только Число ключей, Категорию и Url)')
-    url = forms.URLField(label='URL игры', required=False, widget=forms.URLInput(attrs={'class': 'form-control'}))
     category = forms.ModelChoiceField(queryset=Category.objects.all(), label='Категория', widget=forms.Select(attrs={'class': 'form-control'}))
     key_qty = forms.IntegerField(label='Число ключей для продажи', widget=forms.NumberInput(attrs={'class': 'form-control'}))
     title = forms.CharField(label='Название',required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
@@ -14,4 +12,4 @@ class GameForm(forms.ModelForm):
 
     class Meta:
         model = Game
-        fields = ('creation_method','url', 'key_qty', 'category', 'title', 'price', 'rating','description', 'image')
+        fields = ('key_qty', 'category', 'title', 'price', 'rating','description', 'image')
