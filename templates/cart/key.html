@@ -6,8 +6,16 @@
     <div class="col-md-8 col-lg-6">
       <div class="card text-center">
         <div class="card-body">
-          <h1 class="display-4">Ваш ключ:</h1>
-          <h2 class="display-5 text-primary">{{ key }}</h2>
+          <h1 class="display-4">Ваши ключи:</h1>
+          {% if keys %}
+            <ul>
+              {% for key in keys %}
+                <li>{{ key.game.title }}: {{ key.key }}</li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p>У вас нет ключей.</p>
+          {% endif %}
         </div>
       </div>
     </div>

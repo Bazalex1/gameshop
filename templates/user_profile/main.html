@@ -18,104 +18,125 @@
 
 
 {% block content %}
-  <div class="container rounded bg-white mt-5 mb-5">
-    <div class="row">
-      <div class="col-md-3 border-right">
-        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" 
-          width="150px" src="{% static 'images/men.jpg' %}"><span class="font-weight-bold"> {{ form.first_name.value}} , {{ form.username.value}}  </span><span class="text-black-50">{{form.email.value}}</span><span> </span></div>
-    </div>
-      <div class="col-md-5 border-right">
-         <div class="profile-settings p-3 py-5"> {% comment %} Это карточка {% endcomment %}
-          <form method="post">
-            {% csrf_token %}
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h4 class="text-right">Profile Settings</h4>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-6">
-                <label class="labels">Имя</label>
-                {{ form.first_name.errors }}
-                <input type="text" class="form-control" placeholder="first name" name="first_name" value="{{ form.first_name.value }}">
-              </div>
-              <div class="col-md-6">
-                <label class="labels">Фамилия</label>
-                {{ form.last_name.errors }}
-                <input type="text" class="form-control" value="{{ form.last_name.value }}" placeholder="surname" name="last_name">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <label class="labels">Логин</label>
-                {{ form.username.errors }}
-                <input type="text" name="username" id="username" class="form-control input-sm" placeholder="Введите ваш Логин" value="{{ form.username.value }}">
-              </div>
-              <div class="col-md-12">
-                <label class="labels">Email</label>
-                {{ form.email.errors }}
-                <input type="email" name="email" class="form-control" placeholder="Введите ваш email" value="{{ form.email.value }}">
-              </div>
-              <div class="col-md-12">
-                <label class="labels">День рождения</label>
-                {{ form.birth_date.errors }}
-                <input type="date" name="birth_date" class="form-control" value="{{ form.birth_date.value|date:'Y-m-d' }}">
-              </div>
-              <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="submit" name="save_profile">Save Profile</button></div>
-          </form>
-              
-            </div>
-          </div>
-          <form method="post">
-            {% csrf_token %}
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <label class="labels">Старый пароль</label>
-                {{ password_form.old_password.errors }}
-                <input type="password" name="old_password" class="form-control" placeholder="Введите ваш старый пароль">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <label class="labels">Новый пароль</label>
-                {{ password_form.new_password1.errors }}
-                <input type="password" name="new_password1" class="form-control" placeholder="Введите ваш новый пароль">
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col-md-12">
-                <label class="labels">Подтверждение нового пароля</label>
-                {{ password_form.new_password2.errors }}
-                <input type="password" name="new_password2" class="form-control" placeholder="Подтвердите ваш новый пароль">
-              </div>
-            </div>
-            <div class="mt-5 mb-5 text-center"><button class="btn btn-primary profile-button" type="submit" name="change_password">Сменить пароль</button></div>
-          </form>
-
-        </div>
-        <div class="comments col-md-4"> {% comment %} Это Комментарии{% endcomment %}
-          <div class="p-3 py-5">
-            <h4 class="text-center">Комментарии</h4>
-            {% for comment in comments %}
-              <div class="comment">
-                <div class="comment-header">
-                  <a href="{% url 'shop:single_game' game_id=comment.game.id %}">{{ comment.game.title }}</a>
-                </div>
-                <div class="comment-body">
-                  <strong>{{ comment.text }}</strong>
-                </div>
-                <small>Оставлено: {{ comment.created_at|date:'d.m.Y H:i' }}</small>
-                {% if comment.user == user %}
-                <form action="{% url 'user_profile:delete_comment' comment.id %}" method="post">
-                  {% csrf_token %}
-                  <button type="submit" class="btn btn-primary profile-button">Удалить</button>
-                </form>
-                {% endif %}
-              </div>
-            {% empty %}
-              <p class="text-center">Пока нет комментариев</p>
-            {% endfor %}
-          </div>
-        </div>
+<div class="container rounded bg-white mt-5 mb-5">
+  <div class="row">
+    <div class="col-md-3 border-right">
+      <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+        <img class="rounded-circle mt-5" width="150px" src="{% static 'images/men.jpg' %}">
+        <span class="font-weight-bold">{{ form.first_name.value }}, {{ form.username.value }}</span>
+        <span class="text-black-50">{{ form.email.value }}</span>
+        <span></span>
       </div>
     </div>
+    <div class="col-md-5 border-right">
+      <div class="profile-settings p-3 py-5">
+        <form method="post">
+          {% csrf_token %}
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="text-right">Profile Settings</h4>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label class="labels">Имя</label>
+              {{ form.first_name.errors }}
+              <input type="text" class="form-control" placeholder="first name" name="first_name" value="{{ form.first_name.value }}">
+            </div>
+            <div class="col-md-6">
+              <label class="labels">Фамилия</label>
+              {{ form.last_name.errors }}
+              <input type="text" class="form-control" value="{{ form.last_name.value }}" placeholder="surname" name="last_name">
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-md-12">
+              <label class="labels">Логин</label>
+              {{ form.username.errors }}
+              <input type="text" name="username" id="username" class="form-control input-sm" placeholder="Введите ваш Логин" value="{{ form.username.value }}">
+            </div>
+            <div class="col-md-12">
+              <label class="labels">Email</label>
+              {{ form.email.errors }}
+              <input type="email" name="email" class="form-control" placeholder="Введите ваш email" value="{{ form.email.value }}">
+            </div>
+            <div class="col-md-12">
+              <label class="labels">День рождения</label>
+              {{ form.birth_date.errors }}
+              <input type="date" name="birth_date" class="form-control" value="{{ form.birth_date.value|date:'Y-m-d' }}">
+            </div>
+            <div class="mt-5 text-center">
+              <button class="btn btn-primary profile-button" type="submit" name="save_profile">Save Profile</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <label class="labels">Старый пароль</label>
+            {{ password_form.old_password.errors }}
+            <input type="password" name="old_password" class="form-control" placeholder="Введите ваш старый пароль">
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <label class="labels">Новый пароль</label>
+            {{ password_form.new_password1.errors }}
+            <input type="password" name="new_password1" class="form-control" placeholder="Введите ваш новый пароль">
+          </div>
+        </div>
+        <div class="row mt-3">
+          <div class="col-md-12">
+            <label class="labels">Подтверждение нового пароля</label>
+            {{ password_form.new_password2.errors }}
+            <input type="password" name="new_password2" class="form-control" placeholder="Подтвердите ваш новый пароль">
+          </div>
+        </div>
+        <div class="mt-5 mb-5 text-center">
+          <button class="btn btn-primary profile-button" type="submit" name="change_password">Сменить пароль</button>
+        </div>
+      </form>
+    </div>
+    <div class="comments col-md-4">
+      <div class="p-3 py-5">
+        <h4 class="text-center">Комментарии</h4>
+        {% for comment in comments %}
+          <div class="comment">
+            <div class="comment-header">
+              <a href="{% url 'shop:single_game' game_id=comment.game.id %}">{{ comment.game.title }}</a>
+            </div>
+            <div class="comment-body">
+              <strong>{{ comment.text }}</strong>
+            </div>
+            <small>Оставлено: {{ comment.created_at|date:'d.m.Y H:i' }}</small>
+            {% if comment.user == user %}
+            <form action="{% url 'user_profile:delete_comment' comment.id %}" method="post">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-primary profile-button">Удалить</button>
+            </form>
+            {% endif %}
+          </div>
+        {% empty %}
+          <p class="text-center">Пока нет комментариев</p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col-md-12">
+      <h4 class="text-center">Купленные ключи</h4>
+      {% for key in keys %}
+        <div class="p-3 py-5">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{ key.game.title }}</h5>
+              <p class="card-text">Ключ: {{ key.key }}</p>
+              <p class="card-text"><small class="text-muted">Куплен: {{ key.created_at|date:'d.m.Y H:i' }}</small></p>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <p class="text-center">У вас еще нет купленных ключей</p>
+      {% endfor %}
+    </div>
   </div>
-  {% endblock %}
+</div>
+{% endblock %}

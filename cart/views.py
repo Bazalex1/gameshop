@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from shop.models import Game
 from .models import Cart, CartItem
+from cart.models import Key
 from .key_generator import generate_random_key
 
 
@@ -39,6 +40,23 @@ def remove_from_cart(request, cart_item_id):
 
 
 
-def get_key(request):
-    key = generate_random_key()
-    return render(request, 'cart/key.html', {'key': key})
+
+@login_required
+def generate_keys(request):
+    user = request.user
+    cart = Cart.objects.get(user=user)
+    cart_items = CartItem.objects.filter(cart=cart)
+    keys = []
+
+    for cart_item in cart_items:
+        key_value = generate_random_key()
+        # Создаем ключ, связывая его с игрой, а не с элементом корзины
+        Key.objects.create(user=user, game=cart_item.game, key=key_value)
+    
+    # Очищаем корзину после создания ключей
+    cart_items.delete()
+
+    # Получаем все ключи для отображения
+    keys = Key.objects.filter(user=user)
+    
+    return render(request, 'cart/key.html', {'keys': keys})

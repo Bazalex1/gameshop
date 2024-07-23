@@ -34,9 +34,9 @@
   </table>
   <span class="mb-10 mt-5"> Итого: {{ total_price|floatformat:2 }}</span>
   <span class="mb-10 mt-5">
-    <form method="post" action="{% url 'cart:key' %}">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-primary">Получить ключ</button>
+    <form method="post" action="{% url 'cart:generate_keys' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-primary">Получить ключи</button>
     </form>
   </span>
 </div>

@@ -10,19 +10,18 @@ from django.contrib.auth import login
 from comments.models import Comment
 from django.contrib.auth.decorators import login_required
 from comments.models import Comment
-
+from cart.models import Key
 
 
 # Create your views here.
 class CustomUserDetailView(LoginRequiredMixin, DetailView):
     login_url = reverse_lazy('registration:login')
-
-    def get_login_url(self):
-        return self.login_url + '?next=' + self.request.path
-
     model = CustomUser
     template_name = 'user_profile/main.html'
     context_object_name = 'CustomUser'
+
+    def get_login_url(self):
+        return self.login_url + '?next=' + self.request.path
 
     def get_object(self, queryset=None):
         return self.request.user
@@ -32,6 +31,7 @@ class CustomUserDetailView(LoginRequiredMixin, DetailView):
         context['form'] = CustomUserChangeForm(instance=self.request.user)
         context['password_form'] = CustomPasswordChangeForm(user=self.request.user)
         context['comments'] = Comment.objects.filter(user=self.request.user)
+        context['keys'] = Key.objects.filter(user=self.request.user)
         return context
 
     def post(self, request, *args, **kwargs):
