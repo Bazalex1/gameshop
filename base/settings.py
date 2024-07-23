@@ -143,6 +143,6 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 
-LOGIN_URL = 'registration/login/'  # Указывайте только строку с URL-адресом
+LOGIN_URL = '/registration/login/'  # Указывайте только строку с URL-адресом
 LOGOUT_URL = 'logout/'  # Указывайте только строку с URL-адресом
 LOGIN_REDIRECT_URL = '/shop/'
