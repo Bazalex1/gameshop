@@ -38,7 +38,7 @@
     {% empty %}
       <p class="text-center">Пока нет комментариев</p>
     {% endfor %}
-
+    {% if user.is_authenticated %}
     <div class="form-group">
       <h2>Оставить комментарий</h2>
       <form method="post">
@@ -47,6 +47,9 @@
         <button class="btn mt-3 mb-3 btn-primary profile-button" type="submit">Отправить</button>
       </form>
     </div>
+    {% else %}
+    <p>Чтобы оставить комментарий, <a>войдите в систему</a>.</p>
+    {% endif %}
   </div>
 </div>
 {% endblock content %}
