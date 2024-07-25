@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from .models import Game
 from comments.forms import CommentForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -20,17 +21,23 @@ def game_list(request):
 
 def single_game(request, game_id):
     game = get_object_or_404(Game, pk=game_id)
-
     comments = game.comments.all()
 
     if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.game = game
-            comment.user = request.user
-            comment.save()
-            return redirect('shop:single_game', game_id=game_id)
+        if request.user.is_authenticated:
+            form = CommentForm(request.POST)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.game = game
+                comment.user = request.user
+                comment.save()
+                messages.success(request, 'Комментарий успешно добавлен.')
+                return redirect('shop:single_game', game_id=game_id)
+        else:
+            messages.error(request, 'Для добавления комментария вам нужно войти в систему.')
+            return redirect('login')  # Перенаправление на страницу входа
+
     else:
         form = CommentForm()
-    return render(request, "shop/single_game.html", {"game": game,'comments': comments, 'form': form})
+
+    return render(request, "shop/single_game.html", {"game": game, 'comments': comments, 'form': form})

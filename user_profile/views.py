@@ -9,7 +9,6 @@ from django.contrib.auth.forms import UserChangeForm
 from django.contrib.auth import login
 from comments.models import Comment
 from django.contrib.auth.decorators import login_required
-from comments.models import Comment
 from cart.models import Key
 
 
