@@ -43,7 +43,7 @@ class Game(models.Model):
             new_image_name = f"{self.title}{extension}"
 
             # Обновляем имя изображения перед сохранением
-            self.image.name = os.path.join("game_img", new_image_name)
+            self.image.name = os.path.join(new_image_name)
 
         super().save(*args, **kwargs)
 
