@@ -41,6 +41,26 @@
   color: #000;
 }
 
+
+.game-card__reviews--yellow{
+  color: #ffe500;
+}
+
+.game-card__reviews{
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  margin-top: 0.25rem;
+  min-height: 14px;
+}
+
+.game-card__reviews--green{
+  color: #00ff93;
+}
+.game-card__reviews--red{
+  color: #fd3902;
+}
+
 .game-page__info {
   display: flex;
   flex-direction: column;

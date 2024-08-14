@@ -10,7 +10,9 @@
         <div class="game-card__img">
           <img src="{{ game.image.url }}" alt="{{ game.name }}" class="game-page__image">
         </div>
-        <div class="game-page__rating">{{ game.rating }}</div>
+        <div class="game-card__reviews game-card__reviews--{{ game.get_rating_color }}">
+          {{ game.rating }}
+        </div>
       </div>
       <div class="game-page__info">
         <h1 class="game-page__title">{{ game.title }}</h1>
