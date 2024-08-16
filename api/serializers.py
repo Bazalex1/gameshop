@@ -8,7 +8,7 @@ class GameSerializer(serializers.Serializer):
     price = serializers.FloatField()
     image = serializers.ImageField()
     category = serializers.CharField(source='category.title')
-    rating = serializers.FloatField()
+    rating = serializers.CharField()
     description = serializers.CharField()
     key_qty = serializers.IntegerField()
 
