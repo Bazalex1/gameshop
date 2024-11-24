@@ -1,5 +1,4 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
 from .models import Game
 from comments.forms import CommentForm
 from django.contrib import messages
@@ -9,7 +8,7 @@ from django.contrib import messages
 
 def index(request):
     # Список из 5 игр, которые вы хотите отобразить на главной странице
-    featured_games = Game.objects.filter(id__in=[27, 28, 30, 32, 33])
+    featured_games = Game.objects.filter(id__in=[1, 2, 3, 4, 5])
     context = {'featured_games': featured_games}
     return render(request, 'shop/main.html', context)
 

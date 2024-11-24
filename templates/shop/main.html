@@ -2,28 +2,34 @@
 {% load static %}
 {% block Title %} Магазин {% endblock Title %}
 {% block content %}
-<div class = "best_card">
-    <div class = "best_card_title" ><h1> Самое популярное:</h1> </div>
-    <div class="featured-games">
-    {% for game in featured_games %}
-        <a href="{% url 'shop:single_game' game.id %}" class="game-card">
-        <div class="game-card__img">
-            <img src="{{ game.image.url }}" alt="{{ game.name }}">
+<div class="container mt-5">
+    <!-- Заголовок "Самое популярное" -->
+    <div class="popular-section">
+        <h1 class="popular-title">Самое популярное</h1>
+    </div>
+    <div class="row">
+        {% for game in featured_games %}
+        <div class="col-md-4 col-sm-6 mb-4">
+            <a href="{% url 'shop:single_game' game.id %}" class="card text-decoration-none text-white bg-dark h-100 shadow">
+                <img src="{{ game.image.url }}" class="card-img-top img-fluid" alt="{{ game.name }}">
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title">{{ game.title }}</h5>
+                    <p class="card-text">
+                        <span class="badge {% if game.rating > 8 %}bg-success{% elif game.rating > 5 %}bg-warning{% else %}bg-danger{% endif %}">
+                            Рейтинг: {{ game.rating }}
+                        </span>
+                    </p>
+                    <p class="mt-auto fw-bold">Цена: {{ game.price }} ₽</p>
+                </div>
+            </a>
         </div>
-        <div class="game-card__name">
-            {{ game.title }}
-        </div>
-        <div class="game-card__reviews game-card__reviews--{{ game.get_rating_color }}">
-            {{ game.rating }}
-        </div>
-        <div class="game-card__prices prices">
-            {{ game.price }}
-        </div>
+        {% endfor %}
+    </div>
+    <!-- Кнопка "Весь ассортимент" -->
+    <div class="shop-section text-center mt-5">
+        <a href="{% url 'shop:game_list' %}" class="btn-shop">
+            Весь ассортимент
         </a>
-    {% endfor %}
     </div>
 </div>
-<div class="more">
-    <a href="{% url 'shop:game_list' %}" style="color: #fff; text-decoration: none;"><h2>Весь ассортимент</h2></a>
-  </div>
 {% endblock content %}
