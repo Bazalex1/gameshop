@@ -6,12 +6,22 @@ GameShop - это учебный прототип онлайн-магазина 
 
 ## Установка
 
-### 1. Клонирование репозитория
+### 0. Требования
+Python 13
 
+### 1. Клонирование репозитория
+Linux
 ```bash
 git clone https://github.com/bazalex1/gameshop.git
 cd gameshop
 ```
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+Windows
 
 ### 2. Создание виртуального окружения и установка зависимостей
 
@@ -20,6 +30,8 @@ python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
+
+настройка ключа в .env????
 
 ### 3. Настройка базы данных
 
